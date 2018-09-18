@@ -1,5 +1,11 @@
 package com.example.elevator;
 
+/**
+ * Class that holds pre-calculated statistics for reporting purposes
+ * 
+ * @author brian
+ *
+ */
 public class ElevatorStatistics {
 
 	private long averageWaitTime;

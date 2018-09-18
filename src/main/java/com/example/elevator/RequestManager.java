@@ -1,13 +1,23 @@
 package com.example.elevator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that receives and tracks requests for elevators. There should be just
+ * one RequestManager per bank of elevators. This class does not care how many
+ * elevators service requests. It simply tracks that a request through its
+ * lifecycle, as follows:
+ * <li>Request Received (passenger makes request for an elevator)
+ * <li>Request Serviced (passenger is picked up by an elevator)
+ * <li>Request Completed (Passenger is dropped off by an elevator at the
+ * destination floor)
+ * 
+ * @author brian
+ *
+ */
 public class RequestManager {
 
 	private class Stats {

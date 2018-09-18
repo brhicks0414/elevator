@@ -4,8 +4,9 @@ import java.util.UUID;
 
 /**
  * Model the request for an elevator. This model assumes that the passenger
- * making the request get on the elevator and requests to go to the destination
- * floor.
+ * making the request gets on the elevator and requests to go to the destination
+ * floor. This class does not allow for off cases where a passenger does not get
+ * on the elevator or the passenger requests multiple floors.
  * 
  * @author brian
  *
@@ -62,6 +63,11 @@ public class Request {
 		return this.destinationFloor;
 	}
 
+	/**
+	 * Unique ID for this request
+	 * 
+	 * @return
+	 */
 	public String getId() {
 		return this.id;
 

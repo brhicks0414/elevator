@@ -6,12 +6,26 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Class that models an elevator.
+ * 
+ * @author brian
+ *
+ */
 public class Elevator {
 	private static final long DESTINATION_WAIT_TIME = 1000;
 	private static final long TIME_BETWEEN_FLOORS = 1000;
 	private RequestManager requestManager;
 	private String name;
 
+	/**
+	 * Initialize the elevator
+	 * 
+	 * @param name
+	 *            the name of the elevator (should uniquely identify an elevator)
+	 * @param requestManager
+	 *            a non-null request manager
+	 */
 	public Elevator(String name, RequestManager requestManager) {
 		this.requestManager = requestManager;
 		this.name = name;
@@ -32,7 +46,7 @@ public class Elevator {
 
 	private int currentFloor = 1;
 
-	private Direction status = Direction.IDLE;
+	private Direction direction = Direction.IDLE;
 
 	public void addDestination(Request request) {
 		destinations.add(request);
@@ -53,12 +67,12 @@ public class Elevator {
 		return Collections.unmodifiableList(destinations);
 	}
 
-	public Direction getStatus() {
-		return this.status;
+	public Direction getDirection() {
+		return this.direction;
 	}
 
 	public void setStatus(Direction direction) {
-		this.status = direction;
+		this.direction = direction;
 	}
 
 	public String getName() {
@@ -89,13 +103,13 @@ public class Elevator {
 			// Check for requests in my direction at this floor
 			boolean result = false;
 			Request r = requestManager.getRequest(currentFloor);
-			if (r != null && (destinations.isEmpty() || (r.getDirection() == status))) {
+			if (r != null && (destinations.isEmpty() || (r.getDirection() == direction))) {
 				// service the request
 				System.out.println("[" + name + "] Picking up passenger on floor " + currentFloor);
 				addDestination(r);
 				requestManager.requestServiced(r);
 				result = true;
-				status = r.getDirection();
+				direction = r.getDirection();
 
 			}
 			return result;
@@ -114,10 +128,10 @@ public class Elevator {
 					}
 				}
 			} else {
-				if (status == Direction.UP) {
+				if (direction == Direction.UP) {
 					nextFloor++;
 				}
-				if (status == Direction.DOWN) {
+				if (direction == Direction.DOWN) {
 					nextFloor--;
 				}
 			}
@@ -127,8 +141,8 @@ public class Elevator {
 		@Override
 		public void run() {
 			while (!stopRequested) {
-				if (status != Direction.IDLE) {
-					System.out.println("[" + name + "] At floor " + currentFloor + "; Status=" + status);
+				if (direction != Direction.IDLE) {
+					System.out.println("[" + name + "] At floor " + currentFloor + "; Status=" + direction);
 				}
 				boolean stoppedAtThisFloor = false;
 
@@ -149,11 +163,11 @@ public class Elevator {
 				}
 				// determine direction to next floor
 				if (nextFloor == currentFloor) {
-					status = Direction.IDLE;
+					direction = Direction.IDLE;
 				} else if (nextFloor < currentFloor) {
-					status = Direction.DOWN;
+					direction = Direction.DOWN;
 				} else if (nextFloor > currentFloor) {
-					status = Direction.UP;
+					direction = Direction.UP;
 				}
 
 				// simulate the time required to drop off and/or pick up passengers
@@ -173,7 +187,7 @@ public class Elevator {
 					Thread.currentThread().interrupt();
 				}
 			}
-			if (status != Direction.IDLE) {
+			if (direction != Direction.IDLE) {
 				try {
 					synchronized (this) {
 						this.wait(TIME_BETWEEN_FLOORS);
