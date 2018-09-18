@@ -124,7 +124,7 @@ public class Elevator {
 		private int getNextFloor() {
 			int nextFloor = currentFloor;
 			if (destinations.isEmpty()) {
-				List<Request> requests = requestManager.getCurrentRequests();
+				List<Request> requests = requestManager.getUnservicedRequests();
 				if (!requests.isEmpty()) {
 					int requestFloor = requests.get(0).getFloor();
 					if (requestFloor < currentFloor) {
