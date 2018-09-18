@@ -79,6 +79,12 @@ public class Elevator {
 		return this.name;
 	}
 
+	/**
+	 * Thread used to manage an elevator. This is where the algorithm lives.
+	 * 
+	 * @author brian
+	 *
+	 */
 	private class Executor implements Runnable {
 
 		private boolean handlePassengersAtFloor() {
